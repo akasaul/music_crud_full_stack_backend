@@ -60,8 +60,8 @@ export const login = async (req: Request, res: Response) => {
 
     res.status(200).json({
       error: false,
-      access_token: tokens?.access_token,
       message: "User logged in successfully",
+      access_token: tokens?.access_token,
       user: {
         name: user.name,
         email: user.email,

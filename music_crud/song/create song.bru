@@ -1,0 +1,25 @@
+meta {
+  name: create song
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/songs
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{super_admin_auth_token}}
+}
+
+body:json {
+  {
+    "title": "Till i collapse",
+    "artist": "Eminem",
+    "album": "The eminem show",
+    "genre": "Rap"
+  }
+  
+}

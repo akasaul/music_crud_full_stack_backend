@@ -1,0 +1,28 @@
+meta {
+  name: stats overview
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/stats/overview
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{super_admin_auth_token}}
+}
+
+body:json {
+  {
+    "name": "new car",
+    "model": "new_model",
+    "coverImage": "cover.img",
+    "description": "new car",
+    "mileage": "mileage",
+    "batteryPower": "batteryPower",
+    "price": 500000,
+    "insurancePrice": 3000
+  }
+}

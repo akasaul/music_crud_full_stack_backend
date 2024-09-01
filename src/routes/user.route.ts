@@ -8,5 +8,5 @@ const { validate } = new ValidatorMiddleware();
 
 user.post("/signup", validate(signupSchema), controller.signup);
 user.post("/login", validate(loginSchema), controller.login);
-user.post("/refresh", controller.refresh);
-user.post("/validate", controller.validate);
+// user.post("/refresh", controller.refresh);
+// user.post("/validate", controller.validate);

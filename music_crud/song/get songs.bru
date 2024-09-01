@@ -1,13 +1,17 @@
 meta {
-  name: get cars
+  name: get songs
   type: http
   seq: 2
 }
 
 get {
-  url: {{base_url}}/cars
+  url: {{base_url}}/songs?sdflkjk=adf
   body: json
   auth: bearer
+}
+
+params:query {
+  sdflkjk: adf
 }
 
 auth:bearer {

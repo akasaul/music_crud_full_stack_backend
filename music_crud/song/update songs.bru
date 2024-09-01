@@ -1,0 +1,25 @@
+meta {
+  name: update songs
+  type: http
+  seq: 1
+}
+
+put {
+  url: {{base_url}}/songs/66d401d7a536d87a9fe241f1
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{super_admin_auth_token}}
+}
+
+body:json {
+  {
+    "title": "Shape of you",
+    "artist": "Ed Sheeran",
+    "album": "÷ (Divide)",
+    "genre": "Pop"
+  }
+  
+}

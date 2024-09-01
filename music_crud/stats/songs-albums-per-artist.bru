@@ -1,11 +1,11 @@
 meta {
-  name: update car
+  name: songs-albums-per-artist
   type: http
-  seq: 1
+  seq: 3
 }
 
-put {
-  url: {{base_url}}/cars/66c048b3d40ac836e300edae
+get {
+  url: {{base_url}}/stats/songs-albums-per-artist
   body: json
   auth: bearer
 }
@@ -17,8 +17,8 @@ auth:bearer {
 body:json {
   {
     "name": "new car",
-    "model": "savage mode",
-    "coverImage": "img.img",
+    "model": "new_model",
+    "coverImage": "cover.img",
     "description": "new car",
     "mileage": "mileage",
     "batteryPower": "batteryPower",
