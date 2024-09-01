@@ -1,0 +1,42 @@
+meta {
+  name: is userDetails completed
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{base_url}}/userDetails/details-completed
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{auth_token}}
+}
+
+body:json {
+  {
+    "user_id": 1,
+    "address": "123 Main St",
+    "alt_phone_number": "1234567890",
+    "average_monthly_income": "5000",
+    "city": "Springfield",
+    "company_name": "Acme Corp",
+    "gender": "Male",
+    "house_number": "123",
+    "marital_status": "Single",
+    "organization_name": "Tech Innovations",
+    "payment_in_advance": "Yes",
+    "reference_name": "John Doe",
+    "reference_phone_number": "0987654321",
+    "region": "Midwest",
+    "source_of_income": "Salary",
+    "street_address": "456 Elm St",
+    "sub_city": "Downtown",
+    "type_of_saving": "Savings Account",
+    "wereda": "Area 51",
+    "work_experience": "5 years",
+    "preferred_ev_model": "Tesla Model 3",
+    "payment_method": "FULL_PAYMENT"
+  }
+}

@@ -1,0 +1,22 @@
+meta {
+  name: approve savings
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{base_url}}/individual-savings-account/approve/1
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{auth_token}}
+}
+
+body:json {
+  {
+    "currentBalance": 300.00
+  }
+  
+}

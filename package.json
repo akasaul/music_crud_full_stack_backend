@@ -1,7 +1,7 @@
 {
-  "name": "nodejs-express-mongodb-typescript-starter-kit",
+  "name": "addis sw test backend",
   "version": "1.0.0",
-  "description": "A comprehensive starter kit for building robust web applications, powered by Node.js, Express.js, MongoDB, and TypeScript, offering a solid foundation for rapid development.",
+  "description": "music crud backend api",
   "private": true,
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,7 @@
   "author": "hamidyfine",
   "license": "MIT",
   "dependencies": {
+    "@types/http-errors": "^2.0.4",
     "axios": "^1.5.1",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
@@ -23,6 +24,7 @@
     "express-validator": "^7.0.1",
     "helmet": "^7.0.0",
     "http-errors": "^2.0.0",
+    "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.5.3",
     "morgan": "^1.10.0"

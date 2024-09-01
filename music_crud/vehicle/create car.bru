@@ -1,0 +1,29 @@
+meta {
+  name: create car
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{base_url}}/vehicles
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{auth_token}}
+}
+
+body:json {
+  {
+    "name": "Tesla Model S",
+    "model": "2024",
+    "coverImage": "https://example.com/tesla-model-s.jpg",
+    "description": "A premium electric sedan with autopilot capabilities.",
+    "mileage": "402 miles",
+    "batteryPower": "100 kWh",
+    "price": 79999,
+    "insurancePrice": 1200
+  }
+  
+}

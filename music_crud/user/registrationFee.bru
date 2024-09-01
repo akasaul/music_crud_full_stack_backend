@@ -1,0 +1,22 @@
+meta {
+  name: pay registeration fee
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/users/pay/registration
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{auth_token}}
+}
+
+body:json {
+  {
+    "paymentProof": "https://picsum.photos/536/354"
+  }
+  
+}

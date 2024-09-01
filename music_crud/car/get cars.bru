@@ -1,0 +1,15 @@
+meta {
+  name: get cars
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/cars
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{super_admin_auth_token}}
+}

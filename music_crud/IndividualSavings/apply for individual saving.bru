@@ -1,0 +1,23 @@
+meta {
+  name: apply for individual saving
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{base_url}}/individual-savings-account
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{auth_token}}
+}
+
+body:json {
+  {
+    "registrationPaymentImgUrl": "https://picsum.photos/536/354",
+    "vehicleId": 1
+  }
+  
+}
