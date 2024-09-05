@@ -8,11 +8,21 @@ import {
   getSongdetailsSchema,
   updateSongSchema,
 } from "../validators/song.validator";
+import auth from "../middlewares/auth.middleware";
 
 export const song = Router();
 const { validate } = new ValidatorMiddleware();
 
-song.post("/", validate(createSongSchema), controller.createSong);
+song.post("/", auth, validate(createSongSchema), controller.createSong);
+
+song.get(
+  "/library/my-songs",
+  auth,
+  validate(listSongsSchema),
+  controller.getMySongs,
+);
+
+song.get("/library", auth, validate(listSongsSchema), controller.getLibrary);
 
 song.get("/", validate(listSongsSchema), controller.getSongs);
 

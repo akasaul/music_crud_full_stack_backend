@@ -1,11 +1,12 @@
 import { Schema, model } from "mongoose";
+import { ISong } from "./song.model";
 
-interface IUser {
+export interface IUser {
   name: string;
   password: string;
   email: string;
   role: string;
-  words: Array<any>;
+  favs: [Schema.Types.ObjectId] | [ISong];
 }
 
 const UserSchema = new Schema<IUser>(
@@ -29,6 +30,11 @@ const UserSchema = new Schema<IUser>(
       type: String,
       enum: ["user", "admin"],
       default: "user",
+    },
+    favs: {
+      type: [Schema.Types.ObjectId],
+      ref: "Song",
+      default: [],
     },
   },
   {

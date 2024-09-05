@@ -1,0 +1,15 @@
+meta {
+  name: get songs library
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{base_url}}/songs/library/my-songs
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{auth_token}}
+}

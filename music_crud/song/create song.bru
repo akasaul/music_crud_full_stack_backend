@@ -11,7 +11,7 @@ post {
 }
 
 auth:bearer {
-  token: {{super_admin_auth_token}}
+  token: {{auth_token}}
 }
 
 body:json {
@@ -19,7 +19,9 @@ body:json {
     "title": "Till i collapse",
     "artist": "Eminem",
     "album": "The eminem show",
-    "genre": "Rap"
+    "genre": "Rap",
+    "coverImg": "https://picsum.photos/536/354",
+    "duration": 220
   }
   
 }

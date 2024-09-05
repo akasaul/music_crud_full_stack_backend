@@ -7,6 +7,8 @@ export const createSongSchema = {
     artist: Joi.string().required().trim(),
     album: Joi.string().required().trim(),
     genre: Joi.string().required().trim(),
+    coverImg: Joi.string().required().trim(),
+    duration: Joi.number().required(),
   }),
 };
 
@@ -19,6 +21,8 @@ export const updateSongSchema = {
     artist: Joi.string().optional().trim(),
     album: Joi.string().optional().trim(),
     genre: Joi.string().optional().trim(),
+    coverImg: Joi.string().required().trim(),
+    duration: Joi.number().optional(),
   }).min(1), // At least one field must be provided for update
 };
 

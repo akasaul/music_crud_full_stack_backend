@@ -1,10 +1,14 @@
 import { Schema, model } from "mongoose";
+import { IUser } from "./user.model";
 
-interface ISong {
+export interface ISong {
   title: string;
   artist: string;
   album: string;
   genre: string;
+  coverImg: string;
+  duration: Number;
+  postedBy: Schema.Types.ObjectId | IUser;
 }
 
 const SongSchema = new Schema<ISong>(
@@ -28,6 +32,21 @@ const SongSchema = new Schema<ISong>(
       type: String,
       required: true,
       trim: true,
+    },
+    coverImg: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    duration: {
+      type: Number,
+      required: true,
+      trim: true,
+    },
+    postedBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
   },
   {

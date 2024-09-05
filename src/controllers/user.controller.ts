@@ -19,9 +19,12 @@ export const signup = async (req: Request, res: Response) => {
     const hashedPassword = await bcrypt.hash(body.password, salt);
     const new_user = await User.create({ ...body, password: hashedPassword });
 
+    const tokens = await generateTokens(new_user);
+
     return res.status(201).json({
       error: false,
       message: "User created successfully",
+      access_token: tokens?.access_token,
       user: {
         name: new_user.name,
         email: new_user.email,
