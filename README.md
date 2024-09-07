@@ -4,8 +4,8 @@
 ## Run the backend and the db with docker
 1. make sure you have docker & docker compose installed
 2. clone the repo:  ```
-git clone https://github.com/akasaul/music_crud_full_stack_backned```
-4. ```cd music_crud_full_stack_backned```
+git clone https://github.com/akasaul/music_crud_full_stack_backend```
+4. ```cd music_crud_full_stack_backend```
 5.  ```docker compose up```
 
 
