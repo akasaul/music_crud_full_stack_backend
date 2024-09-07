@@ -7,7 +7,7 @@
   "scripts": {
     "build": "rimraf dist && env && npx tsc",
     "start": "pnpx run build && node dist/index.js",
-    "dev": "pnpx nodemon"
+    "dev": "pnpm nodemon"
   },
   "author": "hamidyfine",
   "license": "MIT",

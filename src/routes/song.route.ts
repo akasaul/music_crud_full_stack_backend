@@ -15,12 +15,20 @@ const { validate } = new ValidatorMiddleware();
 
 song.post("/", auth, validate(createSongSchema), controller.createSong);
 
+song.get("/favorites", auth, controller.getFavoriteSongs);
+
+song.post("/:id/add-to-favorite", auth, controller.addFavorite);
+
+song.post("/:id/remove-from-favorite", auth, controller.removeFavorite);
+
 song.get(
   "/library/my-songs",
   auth,
   validate(listSongsSchema),
   controller.getMySongs,
 );
+
+song.get("/search", controller.searchSongs);
 
 song.get("/library", auth, validate(listSongsSchema), controller.getLibrary);
 

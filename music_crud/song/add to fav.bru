@@ -1,0 +1,27 @@
+meta {
+  name: add to fav
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{base_url}}/songs/66d8ffbb4fafc6afa6c029e3/add-to-favorite
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{auth_token}}
+}
+
+body:json {
+  {
+    "title": "Till i collapse",
+    "artist": "Eminem",
+    "album": "The eminem show",
+    "genre": "Rap",
+    "coverImg": "https://picsum.photos/536/354",
+    "duration": 220
+  }
+  
+}

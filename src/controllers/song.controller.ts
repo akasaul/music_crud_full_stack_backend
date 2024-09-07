@@ -39,8 +39,30 @@ export const getLibrary = async (req: Request, res: Response) => {
 
     const songs = await Song.aggregate([
       {
+        $lookup: {
+          from: "users",
+          let: { songId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $in: ["$$songId", "$favs"],
+                },
+              },
+            },
+          ],
+          as: "favoritedByUser",
+        },
+      },
+      {
         $addFields: {
+          isFav: { $gt: [{ $size: "$favoritedByUser" }, 0] },
           isMySong: { $eq: ["$postedBy", userObjectId] },
+        },
+      },
+      {
+        $project: {
+          favoritedByUser: 0,
         },
       },
     ]);
@@ -54,7 +76,7 @@ export const getLibrary = async (req: Request, res: Response) => {
 
 export const getMySongs = async (req: Request, res: Response) => {
   try {
-    const userId = req.user?._id; // Get user id from req.user
+    const userId = req.user?._id;
 
     if (!userId) {
       return res
@@ -63,6 +85,7 @@ export const getMySongs = async (req: Request, res: Response) => {
     }
 
     const userObjectId = new mongoose.Types.ObjectId(userId);
+
     const songs = await Song.aggregate([
       {
         $match: {
@@ -70,8 +93,29 @@ export const getMySongs = async (req: Request, res: Response) => {
         },
       },
       {
+        $lookup: {
+          from: "users",
+          let: { songId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $in: ["$$songId", "$favs"],
+                },
+              },
+            },
+          ],
+          as: "favoritedByUser",
+        },
+      },
+      {
         $addFields: {
-          isMySong: true,
+          isFav: { $gt: [{ $size: "$favoritedByUser" }, 0] },
+        },
+      },
+      {
+        $project: {
+          favoritedByUser: 0,
         },
       },
     ]);
@@ -122,22 +166,20 @@ export const deleteSong = async (req: Request, res: Response) => {
 export const addFavorite = async (req: Request, res: Response) => {
   try {
     const userId = req.user?._id;
-    const { songId } = req.body;
+    const songId = req.params.id;
 
     if (!userId) {
       return res.status(401).json({ message: "User not authenticated" });
     }
 
-    // Check if the song exists
     const songExists = await Song.findById(songId);
     if (!songExists) {
       return res.status(404).json({ message: "Song not found" });
     }
 
-    // Add song to the user's favorites
     await User.findByIdAndUpdate(
       userId,
-      { $addToSet: { favs: songId } }, // $addToSet prevents duplicates
+      { $addToSet: { favs: songId } },
       { new: true },
     );
 
@@ -148,26 +190,23 @@ export const addFavorite = async (req: Request, res: Response) => {
   }
 };
 
-// Remove a song from favorites
 export const removeFavorite = async (req: Request, res: Response) => {
   try {
     const userId = req.user?._id;
-    const { songId } = req.body;
+    const songId = req.params.id;
 
     if (!userId) {
       return res.status(401).json({ message: "User not authenticated" });
     }
 
-    // Check if the song exists
     const songExists = await Song.findById(songId);
     if (!songExists) {
       return res.status(404).json({ message: "Song not found" });
     }
 
-    // Remove song from the user's favorites
     await User.findByIdAndUpdate(
       userId,
-      { $pull: { favs: songId } }, // $pull removes the song from the array
+      { $pull: { favs: songId } },
       { new: true },
     );
 
@@ -175,5 +214,73 @@ export const removeFavorite = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const getFavoriteSongs = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user?._id; // Get user id from req.user
+
+    if (!userId) {
+      return res
+        .status(400)
+        .json({ error: true, message: "User not authenticated" });
+    }
+
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+
+    // Find the user and get their favorite song IDs
+    const user = await User.findById(userObjectId).select("favs").lean();
+    if (!user) {
+      return res.status(404).json({ error: true, message: "User not found" });
+    }
+
+    const favSongIds = user.favs;
+
+    // Find all songs that match the favorite IDs
+    const favoriteSongs = await Song.find({ _id: { $in: favSongIds } });
+
+    // Add the isFav field to each song
+    const songsWithIsFav = favoriteSongs.map((song) => ({
+      ...song.toObject(),
+      isFav: true,
+    }));
+
+    res.status(200).json(songsWithIsFav);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: true, message: "Internal Server Error" });
+  }
+};
+
+export const searchSongs = async (req: Request, res: Response) => {
+  try {
+    const { query } = req.query;
+
+    if (!query) {
+      return res.status(400).json({ message: "Query parameter is required." });
+    }
+
+    const searchCriteria = {
+      $or: [
+        { title: { $regex: query, $options: "i" } },
+        { artist: { $regex: query, $options: "i" } },
+        { album: { $regex: query, $options: "i" } },
+        { genre: { $regex: query, $options: "i" } },
+      ],
+    };
+
+    const songs = await Song.find(searchCriteria);
+
+    if (songs.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No songs found matching the search criteria." });
+    }
+
+    res.status(200).json(songs);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: true, message: "Internal Server Error" });
   }
 };
